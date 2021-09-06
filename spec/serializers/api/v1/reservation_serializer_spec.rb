@@ -7,7 +7,7 @@ RSpec.describe Api::V1::ReservationSerializer do
 
   let(:reservation) do
     Reservation.new(
-      nil,
+      "RE100",
       "not_confirmed",
       2,
       false,
@@ -61,7 +61,7 @@ RSpec.describe Api::V1::ReservationSerializer do
 
     it "returns array of tables" do
       data = reservation.tables.map { Api::V1::TableSerializer.new(_1).as_json.deep_stringify_keys }
-      expect(subject['tables']).to contain_exactly(data)
+      expect(subject['tables']).to eq(data)
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::ReservationSerializer do
   describe "#as_json" do
     it "returns correct payload" do
       expect(subject.except('guest', 'restaurant', 'tables')).to eq(
-        'id'         => reservation.id,
+        'id'         => "RE100",
         'status'     => "not_confirmed",
         'covers'     => 2,
         'walk_in'    => false,

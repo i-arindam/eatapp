@@ -1,6 +1,4 @@
-module Api
-  module V1
-    class ReservationSerializer < SimpleSerializer
+class Api::V1::ReservationSerializer < SimpleSerializer
   iso_timestamp_columns %i[created_at updated_at start_time]
 
   attributes :id,
@@ -21,13 +19,11 @@ module Api
     object.notes.presence
   end
 
-  def created_at
-    object.created_at
-  end
+  # def created_at
+  #   object.created_at
+  # end
 
-  def updated_at
-    object.updated_at
-  end
-end
-end
+  # def updated_at
+  #   object.updated_at
+  # end
 end
