@@ -13,8 +13,10 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem "pry-rails"
+
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails','5.0.0'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -26,9 +28,10 @@ group :development do
 end
 
 group :test do
+  # gem 'rspec-rails','5.0.0'
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  gem 'chromedriver-helper'
+  # gem 'selenium-webdriver'
+  # gem 'chromedriver-helper'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
