@@ -18,12 +18,4 @@ class Api::V1::ReservationSerializer < SimpleSerializer
   def notes
     object.notes.presence
   end
-
-  # def created_at
-  #   object.created_at
-  # end
-
-  # def updated_at
-  #   object.updated_at
-  # end
 end

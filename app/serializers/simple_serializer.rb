@@ -11,8 +11,4 @@ class SimpleSerializer < ActiveModel::Serializer
   def read_attribute_for_serialization(attr)
     send(attr) rescue object.send(attr)
   end
-
-  def id
-    object.id.presence || SecureRandom.uuid
-  end
 end
