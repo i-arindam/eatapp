@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::ReservationSerializer do
-  subject { serializer.as_json.deep_stringify_keys }
+  subject { serializer.as_json }
 
   let(:guest) { Guest.new("G100", "John", "Doe") }
   let(:restaurant) { Restaurant.new("R100", "This Resto", "That Street, Which City") }
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::ReservationSerializer do
 
   it "allows attributes to be defined for serialization" do
     expect(subject.keys).to contain_exactly(
-      *%w(
+      *%i(
         id
         status
         covers
@@ -53,18 +53,18 @@ RSpec.describe Api::V1::ReservationSerializer do
 
   describe "relationships" do
     it "returns single restaurant" do
-      data = Api::V1::RestaurantSerializer.new(restaurant).as_json.deep_stringify_keys
-      expect(subject['restaurant']).to eql data
+      data = Api::V1::RestaurantSerializer.new(restaurant).as_json
+      expect(subject[:restaurant]).to eql data
     end
 
     it "returns single guest" do
-      data = Api::V1::GuestSerializer.new(reservation.guest).as_json.deep_stringify_keys
-      expect(subject['guest']).to eql data
+      data = Api::V1::GuestSerializer.new(reservation.guest).as_json
+      expect(subject[:guest]).to eql data
     end
 
     it "returns array of tables" do
-      data = reservation.tables.map { Api::V1::TableSerializer.new(_1).as_json.deep_stringify_keys }
-      expect(subject['tables']).to eql data
+      data = reservation.tables.map { Api::V1::TableSerializer.new(_1).as_json }
+      expect(subject[:tables]).to eql data
     end
   end
 
@@ -73,29 +73,29 @@ RSpec.describe Api::V1::ReservationSerializer do
       let(:notes) { "This is a note" }
 
       it "returns the stored value for notes" do
-        expect(subject['notes']).to eql "This is a note"
+        expect(subject[:notes]).to eql "This is a note"
       end
     end
 
     context "when notes is absent" do
       it "is nil if an empty string" do
-        expect(subject['notes']).to be_nil
+        expect(subject[:notes]).to be_nil
       end
     end
   end
 
   describe "#as_json" do
     it "returns correct payload" do
-      expect(subject.except('guest', 'restaurant', 'tables')).to eql(
-        'id'         => "RE100",
-        'status'     => "not_confirmed",
-        'covers'     => 2,
-        'walk_in'    => false,
-        'start_time' => reservation.start_time.iso8601,
-        'duration'   => 5400,
-        'notes'      => nil,
-        'created_at' => reservation.created_at.iso8601,
-        'updated_at' => reservation.updated_at.iso8601
+      expect(subject.except(:guest, :restaurant, :tables)).to eql(
+        :id         => "RE100",
+        :status     => "not_confirmed",
+        :covers     => 2,
+        :walk_in    => false,
+        :start_time => reservation.start_time.iso8601,
+        :duration   => 5400,
+        :notes      => nil,
+        :created_at => reservation.created_at.iso8601,
+        :updated_at => reservation.updated_at.iso8601
       )
     end
 
@@ -103,7 +103,7 @@ RSpec.describe Api::V1::ReservationSerializer do
       let(:reservation_id) { nil }
 
       it "sets id to a random value with fixed length" do
-        expect(subject['id'].length).to eql SecureRandom.uuid.length
+        expect(subject[:id].length).to eql SecureRandom.uuid.length
       end
     end
   end
