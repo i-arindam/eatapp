@@ -22,6 +22,6 @@ module SerializationModules
       (@has_many_relations ||= []) << { assoc_name: assoc, serializer: options.fetch(:serializer) }
     end
 
-    attr_accessor :base_object, :iso_timestamped_columns, :has_one_relations, :has_many_relations, :belongs_to_relations, :attrs
+    attr_accessor :object, :iso_timestamped_columns, :has_one_relations, :has_many_relations, :belongs_to_relations, :attrs
   end
 end

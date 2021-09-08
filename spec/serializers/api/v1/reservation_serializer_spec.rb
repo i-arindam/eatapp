@@ -28,7 +28,7 @@ RSpec.describe Api::V1::ReservationSerializer do
     )
   end
   let(:reservation_id) { "RE100" }
-  let(:notes) { nil }
+  let(:notes) { "This is a note" }
 
   let(:serializer)  { Api::V1::ReservationSerializer.new(reservation) }
 
@@ -70,14 +70,14 @@ RSpec.describe Api::V1::ReservationSerializer do
 
   describe "notes" do
     context "when notes is present" do
-      let(:notes) { "This is a note" }
-
       it "returns the stored value for notes" do
         expect(subject[:notes]).to eql "This is a note"
       end
     end
 
     context "when notes is absent" do
+      let(:notes) { nil }
+
       it "is nil if an empty string" do
         expect(subject[:notes]).to be_nil
       end
@@ -93,7 +93,7 @@ RSpec.describe Api::V1::ReservationSerializer do
         :walk_in    => false,
         :start_time => reservation.start_time.iso8601,
         :duration   => 5400,
-        :notes      => nil,
+        :notes      => "This is a note",
         :created_at => reservation.created_at.iso8601,
         :updated_at => reservation.updated_at.iso8601
       )
