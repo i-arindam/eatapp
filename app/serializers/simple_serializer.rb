@@ -48,19 +48,23 @@ class SimpleSerializer
     Array.wrap(relations).each_with_object({}) do |relation, res|
       association_name = relation[:assoc_name]
       association_serializer = relation[:serializer]
-      association_object = object.send(association_name)
+      association_object = value(association_name)
 
       res[association_name] = association_serializer.new(association_object).as_json
     end
   end
 
   def massaged_attr(attr)
-    attr_val = if self.respond_to?(attr)
-      self.send(attr)
-    else
-      object.send(attr)
-    end
+    attr_val = value(attr)
 
     attr.in?(Array.wrap(iso_timestamped_columns)) ? attr_val.iso8601 : attr_val
+  end
+
+  def value(name)
+    if self.respond_to?(name)
+      self.public_send(name)
+    else
+      object.public_send(name)
+    end
   end
 end
